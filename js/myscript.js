@@ -36,46 +36,41 @@
 
 
 
-let bombe = [];
+let bombe = arrayBombe(15);
 
-//fare una funzione
+// alert("le bombe sono " + bombe)  usato per barare e vedere quali sono le bombe
 
-while (bombe.length <= 15){
-    let numeroGenerato = getRandomInt( 1, 100);
-    if (! bombe.includes(numeroGenerato)){
-        bombe.push(numeroGenerato);
-    }
-}
-
-alert("le bombe sono " + bombe)
 
 let numeriUtente = [];
 
 let sconfitta = false;
 
-while (sconfitta == false){
-    let numeroScelto = parseInt(prompt("scegli un numero"));
-    if (numeriUtente.includes(numeroScelto)){
-        alert("Questo numero è già stato scelto");
-    }else{
-        numeriUtente.push(numeroScelto);
-    }
-    for (i = 0; i < numeriUtente.length; i++){  //cambiare (senza for)
-        if (bombe.includes(numeriUtente[i])){
-            sconfitta = true
-            document.write("Hai perso. Il numero " + numeriUtente[i] + " era una bomba")
+let play = document.getElementById("bottone-play");
+
+play.addEventListener('click', 
+function(){
+    while (sconfitta == false && numeriUtente.length < (5)){
+        let punteggio = numeriUtente.length;
+        let numeroScelto = parseInt(prompt("scegli un numero tra 1 e 100"));
+        if (numeriUtente.includes(numeroScelto)) {
+            alert("Questo numero è già stato scelto");
+        }else if(bombe.includes(numeroScelto)){
+            sconfitta = true;
+            document.write("hai perso. " + numeroScelto + " era una bomba. Il tuo punteggio finale è:  " + punteggio)
         }else{
-            sconfitta = false
+            numeriUtente.push(numeroScelto);
         }
     }
-}
+    
+    if (numeriUtente.length == (5)){
+        document.write("complimenti hai vinto!");
+    }
+})
+
 
 
 console.log(bombe);
 console.log(numeriUtente);
-
-
-
 
 
 
@@ -84,4 +79,16 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+function arrayBombe(lunghezza){
+    let mioArray = [];
+    while (mioArray.length <= lunghezza){
+        let numeroGenerato = getRandomInt(1 , 100);
+        if (! mioArray.includes(numeroGenerato)){
+            mioArray.push(numeroGenerato);
+        }
+    }
+    return mioArray
 }
